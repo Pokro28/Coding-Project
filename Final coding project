@@ -1,8 +1,106 @@
 # Coding-Project
-question_promts = [
-    "Who won 6 NBA rings?\n(a) Micheal Jordan\n(b) Kobe Byrant\n(c) Lebron James\n(d) Spud Webb\n\n,"
-    "Who hit 62 home runs in a single season?\n(a) Tony Hawk\n(b) Aaron Judge\n(c) Kris Byrant\n(d) Hank Aaron\n\n,"
-    "Who did the first double back-flip on a dirtbike?\n(a) Travis Pastrana\n(b) Robbie Madison\n(c) Jeff Gordon\n(d) Ken Block\n\n,"
-    "What NBA team does Steph Curry play on?\n(a) Bulls\n(b) Celtics\n(c) Warriors\n(d) Lakers\n\n,"
-    "Who owns the Dallas Mavericks?\n(a) Bill Nye\n(b) Elon Musk\n(c) Jeff Bezos\n(d) Mark Cuban\n\n"
-]
+#importing tkinter and message box to display result at the end
+from tkinter import *
+import tkinter.messagebox as msg
+from tkinter import Button
+
+#creating object of tkinter window
+win = Tk()
+
+#list of questions that will be used by the program
+ques = ["1.Who won 6 NBA rings ?" ,
+    "2.Who hit 62 home runs in a single season?"
+    ,"3.Who did the first double back-flip on a dirtbike?"]
+
+
+#list of options which is to be used by the program
+#it consist of of list of lists in which each list belongs to question
+options = [["Micheal Jordan","Kobe Byrant","Lebron James","Spud Web"]
+           ,["Tony Hawk","Aaron Judge","Kris Byrant","Hank Aaron"]
+           ,["Travis Pastrana","Robbie Madison","Jeff Gordan","Ken Block"]]
+
+
+#index of answers of each question
+ans = [0,1,0]
+
+#Label to display question
+ques_label = Label(win, text ="", font = ('arial' , 17))
+ques_label.pack(side = TOP)
+
+#setting size of tkinter window
+win.geometry("600x250")
+win.title("Quiz with Tkinter")
+
+#functions to display message at the end
+def display_mess():
+    msg.showinfo("Quiz Result\n", "Your Final Score {}/{}".format(corr, len(ans)))
+
+#function to display the question
+def que_display(win,qn ):
+
+        #configuring label to display new question
+        ques_label.config(text = ques[qn])
+
+        #getting list of options
+        opt = options[qn]
+
+        #configuring buttons to display all options
+        btn.config(text = opt[0] , value = 0 , variable = opt_selected)
+        btn1.config(text=opt[1], value=1, variable=opt_selected)
+        btn2.config(text=opt[2], value=2, variable=opt_selected)
+        btn3.config(text=opt[3], value=3, variable=opt_selected)
+
+
+        #next button to display next question
+        next_b.config(text = "Next", command = next_q)
+
+#checking question after answering each question
+def check_que():
+    global corr
+    #getting option and then comparing it with answers
+    #if it is correct then variable will be incremented
+    a = opt_selected.get()
+    if a == (ans[qn]):
+        corr+=1
+
+#function to display next question
+#it will first check previous question and then display next question
+def next_q():
+    global qn
+    check_que()
+    qn = qn+1
+    #if more question exist display it otherwise, display message and quit window
+    if qn < len(ques):
+        que_display(win , qn )
+    else:
+        display_mess()
+        win.quit()
+
+#required variables for thr program
+qn = 0
+b = 0
+corr = 0
+opt = options[qn]
+opt_selected = IntVar()
+
+#4 radiobuttons for the options for the questions
+btn = Radiobutton(win,text ="" , font = ('arial' , 10))
+btn.pack(side = TOP , anchor = 'w')
+
+btn1 = Radiobutton(win,text ="" , font = ('arial' , 10))
+btn1.pack(side = TOP , anchor = 'w')
+
+btn2 = Radiobutton(win,text ="" , font = ('arial' , 10))
+btn2.pack(side = TOP , anchor ='w')
+
+btn3 = Radiobutton(win,text ="" , font = ('arial', 10))
+btn3.pack(side = TOP , anchor ='w')
+
+
+
+# next button for display next question
+next_b = Button(win , text ="Next" ,bg = "blue" , fg = "White" , width = 10 , height = 2)
+next_b.pack(side = BOTTOM)
+que_display(win, qn )
+
+win.mainloop()
